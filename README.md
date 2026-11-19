@@ -1,30 +1,50 @@
 # OT/SCADA Cybersecurity Demonstrator
 
-### Purdue-Based Injection Substation Architecture and Scenario-Driven Monitoring
+## Purdue-Based Injection Substation Architecture and Scenario-Driven Monitoring
 
 **Electrical Power Engineering | Project Management | ICS/OT Cybersecurity**
 
-## Project Overview
+## 1. Project Overview
 
-This project is a simulated OT/SCADA monitoring demonstrator developed using Ignition Designer and Perspective. It combines a Purdue Model-based injection substation architecture with backend tag-driven visualisation, selectable infrastructure-failure scenarios, alarm behaviour, and trend charts.
+This project is a simulated Operational Technology (OT) and Supervisory Control and Data Acquisition (SCADA) monitoring demonstrator developed using **Inductive Automation Ignition Designer and Perspective**.
 
-The project applies my power engineering background to the exploration of industrial control system monitoring, infrastructure availability, and operational awareness.
+It applies the Purdue Enterprise Reference Architecture to an electrical injection substation use case, combining industrial and enterprise network architecture with backend tag-driven visualisation, infrastructure-status monitoring, scenario-based failure simulation, alarm indication, and trend monitoring.
 
-The demonstrator provides a visual representation of selected enterprise IT and OT components, industrial control devices, and electrical process assets. Backend tag values drive the corresponding status indicators in the Perspective interface.
+The project applies practical power engineering and project delivery experience to explore industrial control system monitoring, infrastructure availability, and operational awareness.
 
-**Project status:** Working lab demonstrator under development. Six selectable scenarios have been exercised, and alarm behaviour and trend charts have been tested. Further technical documentation, validation, and cybersecurity analysis remain ongoing.
+The demonstrator visually represents selected enterprise IT and OT components, industrial control devices, and electrical process assets. Backend Ignition tag values drive the corresponding status indicators and monitoring displays.
 
-## Project Objectives
+**Project status:** The core monitoring demonstrator has been implemented. Six selectable scenarios have been exercised, and alarm behaviour and trend-chart functionality have been tested. Simulated PLC integration and Modbus TCP read communication have also been implemented and verified. Further protocol analysis, write-operation verification and cybersecurity investigation remain ongoing.
+
+## 2. Project Objectives
 
 - Apply a Purdue Model-based architecture to an electrical injection substation use case.
-- Represent enterprise IT, the OT DMZ, site operations, supervisory control, basic control, and the electrical process.
+- Represent enterprise IT, the OT DMZ, site operations, supervisory control, basic control and the electrical process.
 - Use Ignition tags and configured bindings to drive visual asset-status indicators.
 - Demonstrate six selectable operating and infrastructure-failure scenarios.
-- Test alarm behaviour and trend-chart functionality in the lab.
-- Explore how simulated infrastructure states can improve operator visibility and support investigation.
+- Test alarm behaviour and trend-chart functionality within the laboratory.
+- Integrate a simulated PLC using Modbus TCP for process-data acquisition.
+- Examine industrial communication visibility using Wireshark.
 - Establish a foundation for further practical ICS/OT cybersecurity development.
 
-## Architecture Overview
+## 3. Architecture Overview
+
+The demonstrator uses a Purdue-based architecture to organise representative enterprise IT, industrial operations, control and process components into logical levels.
+
+The architecture illustrates the separation of enterprise and operational environments, identifies representative communication paths and provides a basis for examining OT trust boundaries and infrastructure dependencies.
+
+| Purdue level | Architecture layer | Representative components |
+|---|---|---|
+| Level 4 | Enterprise IT | Active Directory server, SIEM, enterprise network and enterprise firewall |
+| Level 3.5 | OT DMZ | Jump server, remote access gateway, data exchange server and OT firewall |
+| Level 3 | Site Operations | Engineering workstation and OT historian |
+| Level 2 | Supervisory Control | Ignition SCADA/HMI and operator workstation |
+| Level 1 | Basic Control | PLC/RTU, bay control IED and protection IED |
+| Level 0 | Process | 33 kV and 11 kV breakers, transformers, frequency and bus voltage |
+
+The architecture identifies representative components and communication relationships across the Purdue levels. It also provides a conceptual basis for examining network segmentation, trust boundaries and dependencies between enterprise IT and industrial control environments.
+
+**Architecture scope:** The diagram is a logical representation of the laboratory design. It does not imply that every illustrated component is a separate deployed system or that all depicted network segmentation and security controls have been independently implemented and validated.
 
 ![Purdue-based injection substation OT architecture](./Purdue%20Injection%20Substation%20Architecture.png)
 
@@ -55,11 +75,15 @@ The following screenshots illustrate the current Ignition Perspective implementa
 
 ![Updated Injection Substation HMI](Screenshot/Modbus-PLC-Overview.png)
 
+**Figure 2 — Substation Overview Dashboard Showing Simulated Injection Substation Status and Electrical Parameters**
+
 The overview presents a simulated injection substation, including electrical measurements, breaker states, transformer information, system status, and selected scenario indicators.
 
 ### 2. Alarm Overview Dashboard
 
 ![Alarm Overview Dashboard](Alarm-Dashboard.png)
+
+**Figure 3 — Alarm Overview Dashboard Showing Active Alarm Status, Alarm Sources and Severity Classification**
 
 The alarm dashboard presents configured alarm sources, their displayed status, and severity. Alarm behaviour has been tested within the lab environment.
 
@@ -67,27 +91,107 @@ The alarm dashboard presents configured alarm sources, their displayed status, a
 
 ![OT Cybersecurity Dashboard](Cyber-Dashboard.png)
 
+**Figure 4 — OT Cybersecurity Dashboard Showing PLC, Gateway, Historian and Firewall Status**
+
 The cyber dashboard provides a visual representation of selected asset status and health indicators, including the PLC, Gateway, historian, and firewall.
 
 ### 4. Substation Trend Dashboard
 
 ![Substation Trend Dashboard](Trend-Dashboard.png)
 
+**Figure 5 — Substation Trend Dashboard Showing Historical Electrical Parameters Over a Selected Time Range**
+
 The trend dashboard displays selected electrical measurements, including 33 kV voltage, frequency, power factor, and current over a selected time range. Trend-chart functionality has been tested in the lab.
 
 **Evidence scope:** These screenshots document the current visual implementation. The demonstrator uses backend tag-driven scenario states. Industrial protocol integrations, packet-level attack analysis, and associated detection controls will be documented separately when implemented and tested.
 
-## Technology Stack
+## 4. Technology Stack
 
-- **SCADA/HMI:** Ignition Designer and Perspective.
-- **Backend state:** Ignition tags.
-- **Visualisation:** Perspective components and configured tag bindings.
-- **Monitoring:** Asset-status indicators, alarm behaviour and trend charts.
-- **Test environment:** Simulated injection substation and infrastructure states.
+The demonstrator uses the following technologies and tools:
+
+| Component | Technology | Purpose |
+|---|---|---|
+| SCADA/HMI | Inductive Automation Ignition 8.3.9 | Industrial monitoring and visualisation |
+| HMI Development | Ignition Perspective | Operator dashboards and monitoring interfaces |
+| Backend | Ignition Tags | Process values, asset states and scenario-driven status |
+| Simulated PLC | Python-based Modbus TCP server | Simulated industrial process-data source |
+| Industrial Protocol | Modbus TCP | Communication between the simulated PLC and Ignition |
+| Network Analysis | Wireshark | Packet capture and Modbus TCP traffic inspection |
+| Supplementary Packet Inspection | tcpdump | Command-line packet capture on Parrot Security OS |
+| Virtualisation | VMware Workstation Pro | Hosting the laboratory virtual machines |
+| Operating Systems | Windows Server 2019 and Parrot Security OS | SCADA gateway and simulated PLC environments |
+
+## 5. Implementation Architecture and Environment
+
+The original Purdue-based monitoring demonstrator was extended with a simulated PLC and Modbus TCP process-data integration. Both implementations form part of the same laboratory project and GitHub repository.
+
+The integration introduces a practical communication path between a simulated industrial controller and the Ignition SCADA environment.
+
+### 5.1 Laboratory Architecture
+
+The implementation uses the following virtual machine arrangement:
+
+| Component | Environment | Function |
+|---|---|---|
+| Simulated PLC | Parrot Security OS | Hosts the Python-based Modbus TCP server |
+| SCADA/HMI | Windows Server 2019 | Runs Ignition 8.3.9 and Perspective |
+| Network | VMware Host-Only | Provides communication between the laboratory systems |
+| Traffic Analysis | Separate Windows VM | Captures and analyses Modbus TCP traffic using Wireshark |
+
+**Laboratory network:** `192.168.187.0/24`
+
+### 5.2 Process-Data Integration
+
+Ignition communicates with the simulated PLC through Modbus TCP and reads holding-register values from the simulated process-data source.
+
+The acquired values are reflected in Ignition tags and made available to the Perspective monitoring interface.
+
+**Implemented tags include:**
+
+| Tag | Description |
+|---|---|
+| `PLC_Voltage_Raw` | Raw voltage register value |
+| `PLC_Voltage_kV` | Scaled voltage value in kV |
+| `PLC_Frequency_Raw` | Raw frequency register value |
+| `PLC_Frequency_Hz` | Frequency value in Hz |
+| `PLC_Breaker_Status` | Breaker status value |
+| `PLC_Breaker_State` | Breaker state representation |
+| `PLC_Alarm_Status` | PLC alarm status value |
+| `PLC_Alarm_State` | PLC alarm state representation |
+
+The voltage value is scaled into engineering units for display. The Perspective HMI presents the simulated 33 kV supply and associated breaker status.
+
+### 5.3 Substation Monitoring Integration
+
+The existing Perspective monitoring interface represents:
+
+- Two incoming 33 kV sources and their circuit breakers.
+- The 33 kV busbar.
+- Power transformers.
+- 11 kV distribution.
+- Bus coupler and outgoing loads.
+
+The simulated PLC feedback is associated with the designated 33 kV breaker. Breaker position is displayed separately from supply availability.
+
+**PLC Alarm Indication**
+
+The PLC alarm status is displayed independently from the existing scenario-driven alarm indicators.
+
+| Status value | Indication |
+|---|---|
+| `0` | Normal |
+| `1` | Alarm active |
+
+A dynamic colour indicator distinguishes normal and active PLC alarm states. The existing scenario-driven central alarm count has been extended to include the PLC alarm contribution.
+
+**Implementation note:** The PLC alarm is a simulated status bit. It is not, by itself, a native Ignition alarm event.
 
 ## Scenario-Based Monitoring
 
-The demonstrator implements six selectable scenarios identified by numeric values from 0 to 5. Each scenario has been selected and observed changing the backend-driven display.
+The demonstrator provides six selectable scenarios, identified by numeric values from 0 to 5. Each scenario represents a defined operating or infrastructure-failure condition. Scenario selection updates the relevant backend tag values, which are reflected through configured status indicators in the Ignition Perspective monitoring interface.
+
+The scenarios provide a controlled way to examine simulated infrastructure conditions and observe their representation within the monitoring environment.
+
 
 | ID | Scenario                    | Demonstration objective                                                              |
 | -: | --------------------------- | ------------------------------------------------------------------------------------ |
@@ -100,14 +204,16 @@ The demonstrator implements six selectable scenarios identified by numeric value
 
 ### Testing and Validation
 
-The OT/SCADA demonstrator was evaluated using six predefined scenarios covering normal operation, substation LAN failure, historian failure, OT firewall failure, enterprise firewall failure, and IED failure.
+Each of the six scenarios was selected and exercised within the laboratory environment. The tests focused on the corresponding scenario state, backend-driven display changes, and observed monitoring behaviour.
+
+The consolidated test results and supporting records are provided below.
 
 - [Read Scenario Test Results (PDF)](Scenario-Test-Results.pdf)
 - [View Scenario Test Results (Markdown)](./Scenario-Test-Results.md)
 
   ## Scenario-Based Testing and Evidence
 
-The Ignition Perspective demonstrator includes six selectable scenarios representing normal operation and selected OT infrastructure failures. Each scenario has an individual test record documenting the affected asset, displayed impact, observed status indicators, and relevant limitations.
+Individual test records are provided for each of the six scenarios. Each record documents the selected scenario, affected asset, displayed impact, observed status indicators, and relevant test limitations.
 
 | Scenario | Test Record |
 |---|---|
@@ -158,6 +264,8 @@ The voltage value is scaled into engineering units for display. The Perspective 
 
 ![Simulated PLC Tag Browser](Screenshot/Modbus-PLC-Tags.png)
 
+**Figure 6 — Ignition Tag Browser Showing the Substation Asset Structure and Modbus PLC Test Tags**
+
 #### 2. Two-Source Substation HMI
 
 The Perspective overview represents two incoming 33 kV sources, their respective circuit breakers, the 33 kV busbar, transformers, 11 kV distribution, bus coupler, and loads.
@@ -190,9 +298,13 @@ Supplementary `tcpdump` captures on Parrot provide hexadecimal packet data for f
 
 ![Modbus TCP Read Request](Screenshot/Modbus-TCP-Read-Capture1.png)
 
+**Figure 7 — Wireshark Capture of Modbus TCP Read Holding Registers Request (Function Code 3)**
+
 **Modbus TCP Read Response**
 
 ![Modbus TCP Read Response](Screenshot/Modbus-TCP-Read-Capture2.png)
+
+**Figure 8 — Wireshark Capture of Modbus TCP Read Holding Registers Response (Function Code 3)**
 
 #### 5. Write-Operation Investigation — In Progress
 
@@ -200,7 +312,7 @@ The Python control script uses a Modbus register-write operation to change the s
 
 However, a write request has not yet been independently identified and verified in the Wireshark capture. The current captures primarily demonstrate Ignition polling and register responses.
 
-The next stage is to isolate and verify the write request, then implement and test a dedicated SCADA-originated command path from Ignition to the simulated PLC.
+The next stage is to isolate and verify the Modbus TCP write request in a packet capture. This will be followed by implementation and testing of a dedicated SCADA-originated command path from Ignition to the simulated PLC.
 
 ### Validation Status
 
@@ -224,7 +336,7 @@ It also lays the groundwork for examining unauthenticated industrial communicati
 
 ### Scope and Limitations
 
-This is a simulated laboratory environment. It is not connected to a physical PLC or an operational substation. The current packet captures establish read polling and responses; a verified SCADA-originated write operation and production-grade OT security controls remain future development objectives.
+This is a simulated laboratory environment and is not connected to a physical PLC or operational substation. Current packet captures demonstrate Modbus TCP read polling and responses. Independent verification of write operations and the implementation of production-grade OT security controls remain future development objectives. 
 
 ### Backend-Driven Visualisation
 
@@ -244,7 +356,7 @@ Further development will document the configured alarm conditions, tag dependenc
 
 ## Industrial Communication Technologies
 
-The architecture identifies the following industrial communication technologies as relevant design concepts:
+The architecture identifies the following industrial communication technologies as relevant to the demonstrator's design and future development:
 
 - IEC 61850 MMS and GOOSE.
 - OPC UA.
@@ -295,7 +407,7 @@ The current demonstrator focuses on visual monitoring of simulated infrastructur
 
 ![Ignition Designer development environment](Ignition-Designer-Workspace.png)
 
-*Figure 6 — Ignition Designer workspace showing the development environment for the Purdue-based injection substation OT/SCADA monitoring demonstrator. The workspace provides context for the Perspective dashboard, project structure, component configuration, and tag-driven development.*
+*Figure 9 — Ignition Designer workspace showing the development environment for the Purdue-based injection substation OT/SCADA monitoring demonstrator. The workspace provides context for the Perspective dashboard, project structure, component configuration, and tag-driven development.*
 
 ## Professional Background
 
